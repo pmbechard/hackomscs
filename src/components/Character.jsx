@@ -1,11 +1,15 @@
-import { Box } from '@react-three/drei';
+import { useGLTF } from '@react-three/drei';
 import React from 'react';
 
 const Character = () => {
+  const model = useGLTF('/Fox/glTF/Fox.gltf');
   return (
-    <Box position={[0, 2.125, 0]} scale={0.25}>
-      <meshStandardMaterial color={'mediumpurple'} />
-    </Box>
+    <primitive
+      object={model.scene}
+      position={[0, 2, 0]}
+      rotation-y={Math.PI}
+      scale={0.0025}
+    ></primitive>
   );
 };
 
