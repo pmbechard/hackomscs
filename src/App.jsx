@@ -13,13 +13,63 @@ function App() {
   const [subscribeKeys, getKeys] = useKeyboardControls();
 
   useFrame((state, delta) => {
+    // FIXME: weird spin around
     const { up, down, left, right, boost } = getKeys();
     const factor = boost ? 2 : 1;
-    if (up) planetRef.current.rotation.x += delta * 0.2 * factor;
-    if (down) planetRef.current.rotation.x -= delta * 0.2 * factor;
-    if (right) planetRef.current.rotation.y += delta * 0.2 * factor;
-    if (left) planetRef.current.rotation.y -= delta * 0.2 * factor;
-    // TODO: connect character animation
+
+    if (up) {
+      if (characterRef.current.rotation.y !== Math.PI)
+        if (characterRef.current.rotation.y < Math.PI)
+          characterRef.current.rotation.y = Math.min(
+            Math.PI,
+            characterRef.current.rotation.y + 0.2
+          );
+        else if (characterRef.current.rotation.y > Math.PI)
+          characterRef.current.rotation.y = Math.max(
+            Math.PI,
+            characterRef.current.rotation.y - 0.2
+          );
+      planetRef.current.rotation.x += delta * 0.2 * factor;
+    }
+    if (down) {
+      if (characterRef.current.rotation.y < 0)
+        characterRef.current.rotation.y = Math.min(
+          0,
+          characterRef.current.rotation.y + 0.2
+        );
+      else if (characterRef.current.rotation.y > 0)
+        characterRef.current.rotation.y = Math.max(
+          0,
+          characterRef.current.rotation.y - 0.2
+        );
+      planetRef.current.rotation.x -= delta * 0.2 * factor;
+    }
+    if (right) {
+      if (characterRef.current.rotation.y < Math.PI / 2)
+        characterRef.current.rotation.y = Math.min(
+          Math.PI / 2,
+          characterRef.current.rotation.y + 0.2
+        );
+      else if (characterRef.current.rotation.y > Math.PI / 2)
+        characterRef.current.rotation.y = Math.max(
+          Math.PI / 2,
+          characterRef.current.rotation.y - 0.2
+        );
+      planetRef.current.rotation.y += delta * 0.2 * factor;
+    }
+    if (left) {
+      if (characterRef.current.rotation.y < (Math.PI * 6) / 4)
+        characterRef.current.rotation.y = Math.min(
+          (Math.PI * 6) / 4,
+          characterRef.current.rotation.y + 0.2
+        );
+      else if (characterRef.current.rotation.y > (Math.PI * 6) / 4)
+        characterRef.current.rotation.y = Math.max(
+          (Math.PI * 6) / 4,
+          characterRef.current.rotation.y - 0.2
+        );
+      planetRef.current.rotation.y -= delta * 0.2 * factor;
+    }
   });
 
   return (
@@ -28,7 +78,7 @@ function App() {
       <Character bodyRef={characterRef} />
 
       <ambientLight />
-      <directionalLight position={[2, 4, 3]} />
+      <directionalLight position={[2, 4, 3]} color={'yellow'} />
 
       <color args={[0x222222]} attach={'background'} />
       <Stars />
