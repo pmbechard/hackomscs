@@ -13,10 +13,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         { name: 'down', keys: ['ArrowDown', 'KeyS'] },
         { name: 'left', keys: ['ArrowLeft', 'KeyA'] },
         { name: 'right', keys: ['ArrowRight', 'KeyD'] },
-        { name: 'jump', keys: ['Space'] },
+        { name: 'boost', keys: ['Space'] },
       ]}
     >
-      <Canvas camera={{ position: [1, 4, 1] }}>
+      <Canvas camera={{ position: [0, 4, 1] }}>
         <App />
       </Canvas>
     </KeyboardControls>
