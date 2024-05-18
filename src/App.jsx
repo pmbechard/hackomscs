@@ -10,7 +10,7 @@ function App() {
   return (
     <>
       <Planet />
-      <Character position={[0, 0, 0]} />
+      <Character />
 
       <ambientLight />
       <directionalLight position={[2, 4, 3]} />
