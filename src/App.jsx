@@ -157,7 +157,7 @@ function App() {
       <color args={[0x222222]} attach={'background'} />
       <Stars />
 
-      <OrbitControls />
+      {/* <OrbitControls /> */}
     </>
   );
 }
