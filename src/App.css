@@ -24,32 +24,16 @@
   font-family: 'Courier New', Courier, monospace;
 }
 
-.pageLink {
-  color: white;
-
-  overflow: hidden;
+#info {
+  color: rgb(179, 199, 0);
+  font-weight: bold;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 100;
   background-color: #ffffff55;
   padding: 10px;
   border-radius: 8px;
+  margin: 10px;
   font-family: 'Courier New', Courier, monospace;
-  width: 300px;
-  height: 500px;
-  cursor: pointer;
-  transition: opacity 0.3s ease-in-out, background-color 0.3s ease-in-out;
-  z-index: 100000;
-}
-
-.pageLink:hover {
-  opacity: 0.7;
-}
-
-.pageLink:active {
-  opacity: 0.7;
-  color: black;
-  background-color: yellow;
-}
-
-span#info {
-  color: rgb(179, 199, 0);
-  font-weight: bold;
 }
