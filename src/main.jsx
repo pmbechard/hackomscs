@@ -16,7 +16,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         { name: 'boost', keys: ['Space'] },
       ]}
     >
-      <Canvas camera={{ position: [0.2, 4, 4] }}>
+      <Canvas camera={{ position: [0.2, 7, 7] }} shadows>
         <App />
       </Canvas>
     </KeyboardControls>
