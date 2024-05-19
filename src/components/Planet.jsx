@@ -1,7 +1,8 @@
-import React, { useRef } from 'react';
-import { Html, useGLTF, Sphere } from '@react-three/drei';
+import React, { useEffect, useRef } from 'react';
+import { Html, useGLTF, Sphere, Text } from '@react-three/drei';
+import { useFrame } from '@react-three/fiber';
 
-const Planet = ({ planetRef, setLinks }) => {
+const Planet = ({ planetRef, setLinks, showBox }) => {
   const model = useGLTF('/surface.glb');
 
   const theIdeaRef = useRef();
@@ -10,56 +11,82 @@ const Planet = ({ planetRef, setLinks }) => {
   const theHackRef = useRef();
   const theGetAtMeRef = useRef();
 
+  useEffect(() => {
+    setLinks([
+      theIdeaRef.current,
+      theTechRef.current,
+      theGuyRef.current,
+      theHackRef.current,
+      theGetAtMeRef.current,
+    ]);
+  }, []);
+
+  const content = {
+    idea: 'The idea behind this project is to explore different ways of navigating the web outside of the link and scroll method that has been common since the early days. It is inspired by the rise in AR/VR technologies and open world games. Web technologies have advanced rapidly, but navigation has remained generally and deserves a proper shakeup!',
+    tech: 'The tech stack used here is based around React Three Fiber which is an abstraction of three.js which is, itself, an abstraction of WebGL. Blender was used to create the models shown here. Special thanks to the pmdrs team and their many helpful components that make creating these projects even more enjoyable!',
+    hack: 'This being my first hackathon, I tried hard to make something that would leave an impression. It was difficult for me to gauge what could be done in 24 hours and I ran into many challenges, especially in Blender and the R3F Rapier physics, both of which were brand new to me. I also came across some interesting bugs that I will be opening issues for once I catch up on my sleep! Some of my original ideas changed throughout the process, others were dropped, others could not be completed in time. While the project is not super advanced in a technical sense, my goal was to explore, be creative, and get people thinking about how we navigate the web and how we might change that in the future.',
+    guy: "My name is Peyton Bechard. I am starting OMSCS in Fall 2024 doing either CS or HCI… haven't quite decided. I am a self-taught programmer, high school math and CS teacher, former North Korean tour guide and project manager, licensed Canadian Risk Manager, and I am a month or two away from being a father.",
+    contact:
+      'Github: https://github.com/pmbechard\n\nLinkedIn: https://www.linkedin.com/in/peyton-bechard/',
+  };
+
+  useFrame((state, delta) => {
+    theIdeaRef.current.lookAt(state.camera.position);
+    theTechRef.current.lookAt(state.camera.position);
+    theGuyRef.current.lookAt(state.camera.position);
+    theHackRef.current.lookAt(state.camera.position);
+    theGetAtMeRef.current.lookAt(state.camera.position);
+  });
+
   return (
     <>
       <primitive ref={planetRef} object={model.scene} scale={3}>
         {/* TODO: Add class for highlight based on proximity - set to state and respond to enter click */}
 
-        <Html
+        <Text
           ref={theIdeaRef}
-          wrapperClass={'pageLink'}
-          position={[-0.4, 0.9, -0.8]}
-          distanceFactor={8}
-          // occlude={[planetRef]}
+          position={[-0.3, 1.1, -0.6]}
+          scale={0.1}
+          onClick={() => showBox(content.idea)}
         >
           the idea
-        </Html>
-        <Html
+        </Text>
+
+        <Text
           ref={theTechRef}
-          wrapperClass={'pageLink'}
-          position={[1, 0.7, 0.45]}
-          distanceFactor={8}
-          // occlude={[planetRef]}
+          position={[1.2, 0.5, 0.2]}
+          scale={0.1}
+          onClick={() => showBox(content.tech)}
         >
           the tech
-        </Html>
-        <Html
+        </Text>
+
+        <Text
           ref={theGuyRef}
-          wrapperClass={'pageLink'}
           position={[-1.1, -0.6, 0.75]}
-          distanceFactor={8}
-          // occlude={[planetRef]}
+          scale={0.1}
+          onClick={() => showBox(content.guy)}
         >
           the guy
-        </Html>
-        <Html
+        </Text>
+
+        <Text
           ref={theHackRef}
-          wrapperClass={'pageLink'}
-          position={[-0.4, -0.6, -1.1]}
-          distanceFactor={8}
-          // occlude={[planetRef]}
+          position={[-0.4, -0.4, -1.1]}
+          scale={0.1}
+          onClick={() => showBox(content.hack)}
         >
           the hack
-        </Html>
-        <Html
+        </Text>
+
+        <Text
           ref={theGetAtMeRef}
-          wrapperClass={'pageLink'}
-          position={[0.8, -1.3, -0]}
-          distanceFactor={8}
-          // occlude={[planetRef]}
+          position={[0.6, -1.1, -0.3]}
+          scale={0.1}
+          onClick={() => showBox(content.contact)}
         >
           get @ me
-        </Html>
+        </Text>
       </primitive>
     </>
   );

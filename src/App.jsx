@@ -3,7 +3,6 @@ import { useFrame } from '@react-three/fiber';
 import {
   Center,
   Float,
-  Html,
   OrbitControls,
   Stars,
   Text3D,
@@ -15,15 +14,18 @@ import './App.css';
 import Planet from './components/Planet';
 import Character from './components/Character';
 import { Physics, RigidBody } from '@react-three/rapier';
+import Page from './components/Page';
 
 function App() {
   // TODO:
-  //  - Make component for Html pop-ups
   //  - Dark/Light mode
 
   const [showTitle, setShowTitle] = useState(true);
   const [cameraAdjusted, setCameraAdjusted] = useState(false);
-  const [links, setLinks] = useState(null);
+  const [links, setLinks] = useState([]);
+  const [showPage, setShowPage] = useState(false);
+  const [pageText, setPageText] = useState(null);
+  const [camera, setCamera] = useState(null);
 
   const titleRef = useRef();
   const planetRef = useRef();
@@ -39,6 +41,8 @@ function App() {
       setCameraAdjusted(true);
     }
 
+    if (!camera) setCamera(state.camera);
+
     const { up, down, left, right, boost } = getKeys();
 
     // Orient Character
@@ -47,12 +51,12 @@ function App() {
     if (down) dirList.push('down');
     if (left) dirList.push('left');
     if (right) dirList.push('right');
-    orient_character(dirList);
+    if (dirList.length > 0) orient_character(dirList);
 
     // Planet Spin
     planetBodyRef.current.resetTorques();
     const factor = boost ? 2 : 1;
-    const SPEED_FACTOR = 20;
+    const SPEED_FACTOR = 40;
     let verticalForce = 0;
     let horizontalForce = 0;
     if (up) verticalForce += delta * factor * SPEED_FACTOR;
@@ -62,8 +66,8 @@ function App() {
     planetBodyRef.current.applyTorqueImpulse(
       {
         x: verticalForce * factor,
-        y: horizontalForce * factor,
-        z: 0,
+        y: 0,
+        z: horizontalForce * factor,
       },
       true
     );
@@ -72,16 +76,22 @@ function App() {
 
   useEffect(() => {
     const timeout1 = setTimeout(() => {
-      gsap.to(titleRef.current.position, { z: 10, duration: 20 });
-    }, 3_000);
+      gsap.to(titleRef.current.position, { y: 20, duration: 20 });
+    }, 5_000);
     const timeout2 = setTimeout(() => {
       setShowTitle(false);
-    }, 8_000);
+    }, 6_000);
     return () => {
       clearTimeout(timeout1);
       clearTimeout(timeout2);
     };
   }, []);
+
+  useEffect(() => {
+    if (!camera) return;
+    if (showPage) gsap.to(camera.position, { x: 20, duration: 1.5 });
+    else gsap.to(camera.position, { x: 0, duration: 1.5 });
+  }, [showPage]);
 
   const orient_character = (directions) => {
     // FIXME: weird turn from left to down
@@ -103,6 +113,25 @@ function App() {
       y: direction,
       duration: 0.5,
     });
+    checkDistances();
+  };
+
+  const checkDistances = () => {
+    // FIXME:
+    // for (const link of links) {
+    //   console.log(link);
+    //   const x = Math.pow(0 - link.position.x, 2);
+    //   const y = Math.pow(3.5 - link.position.y, 2);
+    //   const z = Math.pow(0 - link.position.z, 2);
+    //   console.log(link._private_text, Math.sqrt(x + y + z));
+    //   if (Math.sqrt(x + y + z) <= 3) link.color = 'yellow';
+    //   else link.color = undefined;
+    // }
+  };
+
+  const showBox = (content) => {
+    setPageText(content);
+    setShowPage(true);
   };
 
   return (
@@ -116,13 +145,13 @@ function App() {
         >
           <Center ref={titleRef} position={[0, 6, 5]} rotation-x={-Math.PI / 4}>
             <Text3D
-              font='/fonts/helvetiker_bold.typeface.json'
-              size={0.1}
-              height={0.0025}
-              curveSegments={6}
+              font={'./fonts/Zeyada_Regular.json'}
+              size={0.2}
+              height={0.15}
+              curveSegments={12}
               bevelEnabled
-              bevelThickness={0.01}
-              bevelSize={0.01}
+              bevelThickness={0.02}
+              bevelSize={0.02}
               bevelOffset={0}
               bevelSegments={5}
             >
@@ -137,9 +166,11 @@ function App() {
         </Float>
       )}
 
+      {showPage && <Page content={pageText} setShowPage={setShowPage} />}
+
       <Physics gravity={[0, 0, 0]} friction={0} restitution={0}>
         <RigidBody ref={planetBodyRef} colliders={'trimesh'} lockTranslations>
-          <Planet planetRef={planetRef} setLinks={setLinks} />
+          <Planet planetRef={planetRef} setLinks={setLinks} showBox={showBox} />
         </RigidBody>
 
         <RigidBody
@@ -159,7 +190,7 @@ function App() {
       <color args={[0x222222]} attach={'background'} />
       <Stars />
 
-      <OrbitControls makeDefault />
+      {/* <OrbitControls makeDefault /> */}
     </>
   );
 }
