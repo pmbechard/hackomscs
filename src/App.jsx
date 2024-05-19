@@ -23,6 +23,7 @@ function App() {
 
   const [showTitle, setShowTitle] = useState(true);
   const [cameraAdjusted, setCameraAdjusted] = useState(false);
+  const [links, setLinks] = useState(null);
 
   const titleRef = useRef();
   const planetRef = useRef();
@@ -35,6 +36,7 @@ function App() {
   useFrame((state, delta) => {
     if (!showTitle && !cameraAdjusted) {
       gsap.to(state.camera.position, { z: 5, duration: 2 });
+      setCameraAdjusted(true);
     }
 
     const { up, down, left, right, boost } = getKeys();
@@ -71,10 +73,10 @@ function App() {
   useEffect(() => {
     const timeout1 = setTimeout(() => {
       gsap.to(titleRef.current.position, { z: 10, duration: 20 });
-    }, 2_000);
+    }, 3_000);
     const timeout2 = setTimeout(() => {
       setShowTitle(false);
-    }, 6_000);
+    }, 8_000);
     return () => {
       clearTimeout(timeout1);
       clearTimeout(timeout2);
@@ -114,7 +116,7 @@ function App() {
         >
           <Center ref={titleRef} position={[0, 6, 5]} rotation-x={-Math.PI / 4}>
             <Text3D
-              font='/fonts/optimer_regular.typeface.json'
+              font='/fonts/helvetiker_bold.typeface.json'
               size={0.1}
               height={0.0025}
               curveSegments={6}
@@ -124,11 +126,11 @@ function App() {
               bevelOffset={0}
               bevelSegments={5}
             >
-              Reimagining Web Navigation for HackOMSCS
+              reimagining web navigation for hackomscs
               <meshStandardMaterial
-                color={'white'}
-                roughness={0.1}
-                metalness={0.4}
+                color={0xfff896}
+                roughness={0.2}
+                metalness={0.7}
               />
             </Text3D>
           </Center>
@@ -137,7 +139,7 @@ function App() {
 
       <Physics gravity={[0, 0, 0]} friction={0} restitution={0}>
         <RigidBody ref={planetBodyRef} colliders={'trimesh'} lockTranslations>
-          <Planet bodyRef={planetRef} />
+          <Planet planetRef={planetRef} setLinks={setLinks} />
         </RigidBody>
 
         <RigidBody
@@ -157,7 +159,7 @@ function App() {
       <color args={[0x222222]} attach={'background'} />
       <Stars />
 
-      {/* <OrbitControls /> */}
+      <OrbitControls makeDefault />
     </>
   );
 }

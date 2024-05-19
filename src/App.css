@@ -22,3 +22,23 @@
   margin: 10px;
   font-family: 'Courier New', Courier, monospace;
 }
+
+.pageLink {
+  position: absolute;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  user-select: none;
+  background-color: #ffffff55;
+  padding: 10px;
+  border-radius: 8px;
+  font-family: 'Courier New', Courier, monospace;
+  width: 80px;
+  height: 20px;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.pageLink:hover {
+  opacity: 0.7;
+}
