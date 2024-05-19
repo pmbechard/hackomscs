@@ -11,7 +11,7 @@ const Character = ({ bodyRef }) => {
         <Bloom luminanceThreshold={1.1} mipmapBlur />
       </EffectComposer>
       <Float
-        speed={2}
+        speed={5}
         rotationIntensity={0.3}
         floatIntensity={0.3}
         floatingRange={[0.1, 0.3]}

@@ -1,6 +1,11 @@
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { OrbitControls, Stars, useKeyboardControls } from '@react-three/drei';
+import {
+  Html,
+  OrbitControls,
+  Stars,
+  useKeyboardControls,
+} from '@react-three/drei';
 import './App.css';
 
 import Planet from './components/Planet';
@@ -78,10 +83,14 @@ function App() {
       <Character bodyRef={characterRef} />
 
       <ambientLight />
-      <directionalLight position={[2, 4, 3]} color={'yellow'} />
+      <hemisphereLight args={['orange', 'purple', 3]} />
 
       <color args={[0x222222]} attach={'background'} />
       <Stars />
+
+      <Html position={[5, 0, 0]}>
+        Use Arrow keys or WASD to move and Space for a speed boost
+      </Html>
 
       <OrbitControls />
     </>

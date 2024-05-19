@@ -1,10 +1,14 @@
 import React from 'react';
-import { useGLTF } from '@react-three/drei';
+import { Html, useGLTF } from '@react-three/drei';
 
 const Planet = ({ bodyRef }) => {
   const model = useGLTF('/surface.glb');
 
-  return <primitive ref={bodyRef} object={model.scene} scale={2}></primitive>;
+  return (
+    <primitive ref={bodyRef} object={model.scene} scale={2}>
+      <Html position={[-0.45, 1.4, -1.15]}>Home</Html>
+    </primitive>
+  );
 };
 
 export default Planet;
