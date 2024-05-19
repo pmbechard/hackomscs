@@ -10,15 +10,21 @@ import './App.css';
 
 import Planet from './components/Planet';
 import Character from './components/Character';
+import { Physics, RigidBody, quat } from '@react-three/rapier';
 
 function App() {
   const planetRef = useRef();
+  const planetBodyRef = useRef();
   const characterRef = useRef();
+  const characterBodyRef = useRef();
 
   const [subscribeKeys, getKeys] = useKeyboardControls();
 
   useFrame((state, delta) => {
     // FIXME: weird spin around
+    // TODO: orient character function
+    // FIXME: continuous motion on key hold
+
     const { up, down, left, right, boost } = getKeys();
     const factor = boost ? 2 : 1;
 
@@ -34,7 +40,10 @@ function App() {
             Math.PI,
             characterRef.current.rotation.y - 0.2
           );
-      planetRef.current.rotation.x += delta * 0.2 * factor;
+      planetBodyRef.current.applyTorqueImpulse(
+        { x: delta * factor * 10, y: 0, z: 0 },
+        true
+      );
     }
     if (down) {
       if (characterRef.current.rotation.y < 0)
@@ -47,7 +56,10 @@ function App() {
           0,
           characterRef.current.rotation.y - 0.2
         );
-      planetRef.current.rotation.x -= delta * 0.2 * factor;
+      planetBodyRef.current.applyTorqueImpulse(
+        { x: -delta * factor * 10, y: 0, z: 0 },
+        true
+      );
     }
     if (right) {
       if (characterRef.current.rotation.y < Math.PI / 2)
@@ -60,7 +72,10 @@ function App() {
           Math.PI / 2,
           characterRef.current.rotation.y - 0.2
         );
-      planetRef.current.rotation.y += delta * 0.2 * factor;
+      planetBodyRef.current.applyTorqueImpulse(
+        { x: 0, y: delta * factor * 10, z: 0 },
+        true
+      );
     }
     if (left) {
       if (characterRef.current.rotation.y < (Math.PI * 6) / 4)
@@ -73,24 +88,35 @@ function App() {
           (Math.PI * 6) / 4,
           characterRef.current.rotation.y - 0.2
         );
-      planetRef.current.rotation.y -= delta * 0.2 * factor;
+      planetBodyRef.current.applyTorqueImpulse(
+        { x: 0, y: -delta * factor * 10, z: 0 },
+        true
+      );
     }
   });
 
   return (
     <>
-      <Planet bodyRef={planetRef} />
-      <Character bodyRef={characterRef} />
+      <Physics gravity={[0, 0, 0]} friction={0} restitution={0}>
+        <RigidBody ref={planetBodyRef} colliders={'trimesh'}>
+          <Planet bodyRef={planetRef} />
+        </RigidBody>
+
+        <RigidBody
+          ref={characterBodyRef}
+          type={'fixed'}
+          friction={0}
+          restitution={0}
+        >
+          <Character bodyRef={characterRef} />
+        </RigidBody>
+      </Physics>
 
       <ambientLight />
       <hemisphereLight args={['orange', 'purple', 3]} />
 
       <color args={[0x222222]} attach={'background'} />
       <Stars />
-
-      <Html position={[5, 0, 0]}>
-        Use Arrow keys or WASD to move and Space for a speed boost
-      </Html>
 
       <OrbitControls />
     </>
