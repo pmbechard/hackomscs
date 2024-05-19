@@ -48,3 +48,8 @@
   color: black;
   background-color: yellow;
 }
+
+#info {
+  color: 'green';
+  font-weight: bold;
+}
