@@ -70,11 +70,11 @@ function App() {
 
   useEffect(() => {
     const timeout1 = setTimeout(() => {
-      gsap.to(titleRef.current.position, { x: 20, y: 50, z: 20, duration: 20 });
-    }, 6_000);
+      gsap.to(titleRef.current.position, { z: 10, duration: 20 });
+    }, 2_000);
     const timeout2 = setTimeout(() => {
       setShowTitle(false);
-    }, 7_000);
+    }, 6_000);
     return () => {
       clearTimeout(timeout1);
       clearTimeout(timeout2);
