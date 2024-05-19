@@ -21,7 +21,7 @@ const Character = ({ bodyRef }) => {
         <primitive
           ref={bodyRef}
           object={model.scene}
-          position={[0, 2.5, 0]}
+          position={[0, 2.25, 0]}
           scale={0.1}
         ></primitive>
       </Float>
