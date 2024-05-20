@@ -37,3 +37,18 @@
   margin: 10px;
   font-family: 'Courier New', Courier, monospace;
 }
+
+#gh-icon {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  background-color: #ffffff55;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 10px;
+  transition: opacity 0.3s ease-in-out;
+}
+#gh-icon:hover {
+  opacity: 0.7;
+}
