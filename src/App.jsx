@@ -3,7 +3,6 @@ import { useFrame } from '@react-three/fiber';
 import {
   Center,
   Float,
-  OrbitControls,
   Stars,
   Text3D,
   useKeyboardControls,
@@ -117,7 +116,7 @@ function App() {
   };
 
   const checkDistances = () => {
-    // FIXME:
+    // FIXME: Make links 'light up' on proximity
     // for (const link of links) {
     //   console.log(link);
     //   const x = Math.pow(0 - link.position.x, 2);
@@ -155,7 +154,7 @@ function App() {
               bevelOffset={0}
               bevelSegments={5}
             >
-              reimagining web navigation for hackomscs
+              reimagining web navigation
               <meshStandardMaterial
                 color={0xfff896}
                 roughness={0.2}
@@ -189,8 +188,6 @@ function App() {
 
       <color args={[0x222222]} attach={'background'} />
       <Stars />
-
-      {/* <OrbitControls makeDefault /> */}
     </>
   );
 }
