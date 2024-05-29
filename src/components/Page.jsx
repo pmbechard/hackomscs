@@ -1,5 +1,5 @@
 import { Float, Text } from '@react-three/drei';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 const Page = ({ content, setShowPage }) => {
   return (
@@ -11,7 +11,6 @@ const Page = ({ content, setShowPage }) => {
         floatingRange={[0.1, 0.2]}
       >
         <mesh scale={12} onClick={() => setShowPage(false)}>
-          {/* <boxGeometry /> */}
           <meshStandardMaterial />
           <Text
             position={[2, -6, -6]}
