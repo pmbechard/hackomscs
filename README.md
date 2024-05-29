@@ -1,10 +1,20 @@
 # Reimagining Web Navigation
 
-#### Winner of the "Love At First Click" challenge in the [hackOMSCS](https://www.hackomscs.com/) May 2024 hackathon.
+Winner of the "Love At First Click" challenge in the [hackOMSCS](https://www.hackomscs.com/) May 2024 hackathon
 
-<img src='./public/preview.png' alt='preview'>
+![preview](./public/preview.png)
 
-### [Live Demo](https://hackomscs.pmbechard.ca)
+## Links
+
+[Live Demo](https://hackomscs.pmbechard.ca)
+
+[Submission Page](https://devpost.com/software/reimagining-web-navigation)
+
+## The Idea
+
+This is an exploration of new methods to navigate the web as a way of challenging the standard link-and-scroll navigation that has always been the go-to method, even as web technologies have advanced rapidly.
+
+Inspired by the 3D spaces offered in AR/VR technologies and the freedom to explore in non-predetermined way such as the adventure offered by many open-world games.
 
 ## Instructions
 
